@@ -5,29 +5,29 @@ const app = express();
 const PORT = 3000;
 const deportesFilePath = 'deportes.json';
 
-// Middleware para analizar automáticamente los datos JSON enviados en la solicitud
+// Middleware para los datos JSON enviados
 app.use(express.json());
 
-// Ruta principal para levantar el html
+// Ruta para levantar el html
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// Ruta para agregar un nuevo deporte
+// Ruta para agregar nuevo deporte
 app.get('/agregar', (req, res) => {
     const { nombre, precio } = req.query;
 
-    // Verificar que se recibieron los parámetros necesarios
+    // Verificador de parámetros recibidos
     if (!nombre || !precio) {
         return res.status(400).json({ error: 'Nombre y precio son requeridos' });
     }
 
-    // Validar el tipo de los parámetros
+    // Validar los parámetros
     if (typeof nombre !== 'string' || typeof precio !== 'string') {
         return res.status(400).json({ error: 'Los parámetros deben ser de tipo string' });
     }
 
-    // Leer el archivo JSON de deportes o crearlo si no existe
+    // Leer el archivo JSON de deportes o crear
     let deportes;
     try {
         deportes = JSON.parse(fs.readFileSync(deportesFilePath, 'utf-8'));
@@ -59,7 +59,7 @@ app.get('/editar', (req, res) => {
         return res.status(400).json({ error: 'Nombre y precio son requeridos' });
     }
 
-    // Leer el archivo JSON de deportes o crearlo si no existe
+    // Leer archivo JSON de deportes o crearlo 
     let deportes;
     try {
         deportes = JSON.parse(fs.readFileSync(deportesFilePath, 'utf-8'));
@@ -67,7 +67,7 @@ app.get('/editar', (req, res) => {
         return res.status(500).json({ error: 'Error al cargar el archivo de deportes' });
     }
 
-    // Buscar el deporte por nombre
+    // Buscar el deporte
     const deporteIndex = deportes.findIndex(sport => sport.nombre === nombre);
     if (deporteIndex === -1) {
         return res.status(404).json({ error: 'Deporte no encontrado' });
@@ -129,7 +129,7 @@ app.use((req, res) => {
     res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
-// Iniciar el servidor en el puerto especificado
+// Iniciar el servidor en el puerto.
 app.listen(PORT, () => {
     console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 });
